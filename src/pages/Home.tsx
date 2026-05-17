@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { BentoHero } from '../components/BentoHero';
 import { TradeTabs } from '../components/TradeTabs';
-import { BeforeAfterSlider } from '../components/BeforeAfterSlider';
 import { ProjectCard } from '../components/ProjectCard';
 import { ReviewTile } from '../components/ReviewTile';
 import { ColorSwatchStrip } from '../components/ColorSwatchStrip';
@@ -10,7 +9,7 @@ import { FadeIn } from '../components/FadeIn';
 import { projects } from '../data/projects';
 import { reviews } from '../data/reviews';
 import { posts } from '../data/posts';
-import { img, IMG } from '../utils/unsplash';
+import { img } from '../utils/unsplash';
 import { useSEO } from '../utils/seo';
 import { ArrowRight, ArrowUpRight, Phone } from 'lucide-react';
 
@@ -40,23 +39,6 @@ export default function Home() {
       <Section className="!pt-6 lg:!pt-10">
         <SectionHead eyebrow="What we do" title="Every exterior trade. One contractor." kicker="Painting, roofing, and James Hardie siding all from the same crews. When the re-roof reveals damaged siding, we fix it without a second contract." />
         <TradeTabs />
-      </Section>
-
-      {/* Before / After */}
-      <Section className="!py-14 lg:!py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          <FadeIn className="lg:col-span-5 order-2 lg:order-1">
-            <div className="eyebrow mb-4">Before / After</div>
-            <h2 className="text-4xl lg:text-5xl mb-5">Drag the line. See the difference.</h2>
-            <p className="text-stone-soft text-lg leading-relaxed mb-6">
-              Real projects from Austin neighborhoods. Same homes, photographed from the same angle, separated only by our crews and a couple of weeks.
-            </p>
-            <Link to="/projects" className="btn-soft">Explore the portfolio <ArrowRight className="w-4 h-4" /></Link>
-          </FadeIn>
-          <FadeIn className="lg:col-span-7 order-1 lg:order-2" delay={0.1}>
-            <BeforeAfterSlider before={IMG.house2} after={IMG.exteriorHome} alt="Tarrytown bungalow repaint" />
-          </FadeIn>
-        </div>
       </Section>
 
       {/* Projects grid */}
