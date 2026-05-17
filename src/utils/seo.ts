@@ -1,55 +1,49 @@
 import { useEffect } from 'react';
 
-interface SEOOptions {
+export interface SeoOpts {
   title: string;
   description: string;
   canonical?: string;
   schema?: object;
 }
 
-const BASE_URL = 'https://21stcenturytexas.com';
-
-export function useSEO({ title, description, canonical, schema }: SEOOptions) {
+export function useSEO({ title, description, canonical, schema }: SeoOpts) {
   useEffect(() => {
     document.title = title;
-
-    setMeta('name', 'description', description);
-    setMeta('property', 'og:title', title);
-    setMeta('property', 'og:description', description);
-    setMeta('name', 'twitter:title', title);
-    setMeta('name', 'twitter:description', description);
-
-    const canonicalUrl = canonical ? `${BASE_URL}${canonical}` : BASE_URL;
-    let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (!link) {
-      link = document.createElement('link');
-      link.rel = 'canonical';
-      document.head.appendChild(link);
-    }
-    link.href = canonicalUrl;
-    setMeta('property', 'og:url', canonicalUrl);
-
-    let schemaTag = document.getElementById('page-schema');
-    if (schema) {
-      if (!schemaTag) {
-        schemaTag = document.createElement('script');
-        schemaTag.id = 'page-schema';
-        (schemaTag as HTMLScriptElement).type = 'application/ld+json';
-        document.head.appendChild(schemaTag);
-      }
-      schemaTag.textContent = JSON.stringify(schema);
-    } else if (schemaTag) {
-      schemaTag.remove();
-    }
-  }, [title, description, canonical]);
+    setMeta('description', description);
+    if (canonical) setLink('canonical', canonical);
+    if (schema) setSchema(schema);
+  }, [title, description, canonical, schema]);
 }
 
-function setMeta(attr: string, key: string, value: string) {
-  let el = document.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+function setMeta(name: string, content: string) {
+  let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
   if (!el) {
     el = document.createElement('meta');
-    el.setAttribute(attr, key);
+    el.name = name;
     document.head.appendChild(el);
   }
-  el.setAttribute('content', value);
+  el.content = content;
+}
+
+function setLink(rel: string, href: string) {
+  let el = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
+  if (!el) {
+    el = document.createElement('link');
+    el.rel = rel;
+    document.head.appendChild(el);
+  }
+  el.href = href;
+}
+
+function setSchema(obj: object) {
+  const id = 'page-schema';
+  let el = document.getElementById(id) as HTMLScriptElement | null;
+  if (!el) {
+    el = document.createElement('script');
+    el.id = id;
+    el.type = 'application/ld+json';
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify(obj);
 }

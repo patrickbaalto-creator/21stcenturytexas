@@ -1,159 +1,104 @@
-import { PageHero } from '../components/PageHero';
-import { Breadcrumb } from '../components/Breadcrumb';
-import { CtaBanner } from '../components/CtaBanner';
+import { Link } from 'react-router-dom';
+import { Section, SectionHead } from '../components/Section';
+import { FadeIn } from '../components/FadeIn';
+import { img, IMG } from '../utils/unsplash';
 import { useSEO } from '../utils/seo';
-import { Award, CheckCircle } from 'lucide-react';
+import { ArrowRight, Phone, Check } from 'lucide-react';
+
+const milestones = [
+  { year: '1996', title: 'Founded in Austin', body: 'Started as a one-truck painting operation on the east side of Austin.' },
+  { year: '2003', title: 'Roofing added', body: 'Brought a roofing division in-house after years of subbing to outside crews who flaked on schedules.' },
+  { year: '2009', title: 'James Hardie installer', body: 'Became a certified James Hardie installer; now installs fiber cement on 80+ homes per year.' },
+  { year: '2014', title: 'Insurance claim team', body: 'Built a dedicated claim team after a brutal hail season exposed how badly homeowners were being short-paid.' },
+  { year: '2020', title: '300+ five-star reviews', body: 'Crossed the 300 mark across Google, Yelp, BBB, and Angi.' },
+  { year: 'Today', title: 'Three trades, one crew', body: 'Painting, roofing, and siding from the same family-owned shop. Same warranty, same standards, since 1996.' },
+];
+
+const values = [
+  { title: 'One warranty', body: 'Painting, roofing, and siding all backed by the same workmanship guarantee. No finger-pointing between trades.' },
+  { title: 'Real materials', body: 'Sherwin-Williams, Benjamin Moore, James Hardie, GAF — no off-brand substitutes to pad margins.' },
+  { title: 'W-2 crews', body: 'Our painters and roofers are full-time employees, not subs we met yesterday. They show up because they work here.' },
+  { title: 'Honest claims', body: 'We never ask homeowners to "waive" or "absorb" a deductible. That is insurance fraud. We invoice insurance directly.' },
+];
 
 export default function About() {
   useSEO({
-    title: 'About 21st Century — Austin Roofing Company Since 1996',
-    description: "Learn about 21st Century, Austin's #1 roofing company since 1996. BBB Accredited, BBB A+ rated, 300 five-star reviews. 25+ years combined experience.",
+    title: 'About 21st Century Painting, Roofing & Siding — Austin Since 1996',
+    description: 'Family-owned Austin painting, roofing, and siding contractor since 1996. 300+ five-star reviews. James Hardie installer. EPA Lead-Safe certified.',
     canonical: '/about',
   });
 
   return (
-    <div className="bg-white">
-      <PageHero
-        eyebrow="Our Story"
-        title="Austin's Most Trusted Roofing Company"
-        subtitle="Founded in 2012, 21st Century has dedicated itself to protecting Central Texas homes with uncompromising quality."
-        image="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1920&q=80"
-        height="50vh"
-      />
+    <>
+      <Section className="!pt-14 lg:!pt-20 !pb-10">
+        <FadeIn>
+          <div className="eyebrow mb-4">About</div>
+          <h1 className="text-5xl lg:text-7xl leading-[0.98] tracking-tight mb-6 max-w-3xl">
+            One family. Three trades. <span className="italic text-brand">29 years in Austin.</span>
+          </h1>
+          <p className="text-stone-soft text-lg lg:text-xl leading-relaxed max-w-2xl">
+            We started as a one-truck painting operation in 1996. Today we paint, roof, and re-side homes across Central Texas with the same crews that have been here for years — and the same family at the top.
+          </p>
+        </FadeIn>
+      </Section>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
-        <Breadcrumb items={[{ label: 'About Us' }]} />
+      <Section className="!pt-4">
+        <FadeIn>
+          <div className="bento overflow-hidden aspect-[16/9] lg:aspect-[21/9]">
+            <img src={img(IMG.crew, 2000)} alt="21st Century crew on site" className="w-full h-full object-cover" />
+          </div>
+        </FadeIn>
+      </Section>
 
-        {/* Story + Image */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20 mt-8">
-          <div className="space-y-6">
-            <div className="text-[#1d4ed8] text-xs font-bold uppercase tracking-widest">Our Story</div>
-            <h2 className="font-display text-4xl text-[#1e3a5f]">Built on Integrity.<br/>Driven by Craftsmanship.</h2>
-            <p className="text-[#475569] text-lg leading-relaxed">
-              21st Century began with a simple philosophy: treat every roof like it's over our own family. What started as a small, specialized repair crew in 2012 has grown into Austin's most trusted full-service roofing and restoration company.
-            </p>
-            <p className="text-[#475569] leading-relaxed">
-              Our dual expertise in roofing and water damage restoration means we don't just patch a leak — we heal the entire structure. Our dedication to craftsmanship and transparent communication earned us consecutive Austin Business Journal Top 50 awards in 2020 and 2021.
-            </p>
-            <div className="bg-[#1e3a5f] rounded-xl p-5 flex items-center gap-4">
-              <Award className="w-10 h-10 text-yellow-300 shrink-0" />
-              <div className="text-white">
-                <div className="font-bold text-sm">Austin Business Journal Top 50</div>
-                <div className="text-white/70 text-xs mt-0.5">Fastest-Growing Companies in Central Texas — 2020 &amp; 2021</div>
+      <Section>
+        <SectionHead eyebrow="Timeline" title="29 years of Austin homes." />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {milestones.map((m, i) => (
+            <FadeIn key={m.year} delay={i * 0.04}>
+              <div className="bento p-7 h-full">
+                <div className="font-display text-brand text-3xl font-bold mb-3">{m.year}</div>
+                <h3 className="text-xl font-display font-bold mb-3">{m.title}</h3>
+                <p className="text-stone-mute text-[14.5px] leading-relaxed">{m.body}</p>
               </div>
-            </div>
-          </div>
-          <div className="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
-            <img
-              src="/images/wdr-shop.webp"
-              alt="21st Century roofing team working on a residential roof in Austin TX"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20 bg-[#f8fafc] rounded-2xl p-8">
-          {[
-            { val: '2012', label: 'Founded in Austin' },
-            { val: '25+', label: 'Years Combined Experience' },
-            { val: '300+', label: 'Five-Star Reviews' },
-            { val: '24/7', label: 'Emergency Response' },
-          ].map(s => (
-            <div key={s.label} className="text-center">
-              <div className="font-display text-4xl font-bold text-[#1d4ed8]">{s.val}</div>
-              <div className="text-[#64748b] text-sm mt-1">{s.label}</div>
-            </div>
+            </FadeIn>
           ))}
         </div>
+      </Section>
 
-        {/* Core values */}
-        <div className="mb-20">
-          <h3 className="font-display text-4xl text-[#1e3a5f] text-center mb-12">Our Core Values</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { img: '/images/roof-repair-contractor.webp', title: 'Integrity', desc: 'We never recommend a replacement when a repair will do. Honest assessments are our foundation — always.' },
-              { img: '/images/roofing-workers.webp', title: 'Craftsmanship', desc: 'Using BBB Accredited Member materials and exhaustive safety protocols ensures an install that outlasts our warranties.' },
-              { img: '/images/brad-and-coby.webp', title: 'Transparency', desc: 'Clear pricing, complete photo documentation, and zero hidden fees. We communicate every step of the way.' },
-            ].map((v, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-white">
-                <div className="h-48 overflow-hidden">
-                  <img src={v.img} alt={v.title} className="w-full h-full object-cover" />
-                </div>
-                <div className="p-6">
-                  <h4 className="font-bold text-[#1e3a5f] text-xl mb-2">{v.title}</h4>
-                  <p className="text-[#64748b] text-sm leading-relaxed">{v.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Team */}
-        <div className="mb-20">
-          <h3 className="font-display text-4xl text-[#1e3a5f] text-center mb-12">Meet the Team</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { name: 'Michael T.', role: 'Founder & Master Roofer', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80' },
-              { name: 'Sarah J.', role: 'Operations Manager', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80' },
-              { name: 'David R.', role: 'Lead Inspector', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80' },
-              { name: 'Elena C.', role: 'Restoration Specialist', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80' },
-            ].map((member, i) => (
-              <div key={i} className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm text-center">
-                <div className="h-56 overflow-hidden">
-                  <img src={member.img} alt={member.name} className="w-full h-full object-cover object-top" />
-                </div>
-                <div className="p-5">
-                  <h4 className="font-bold text-[#1e3a5f] text-lg">{member.name}</h4>
-                  <p className="text-[#1d4ed8] text-xs font-semibold uppercase tracking-wider mt-1">{member.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Credentials */}
-        <div className="mb-20 bg-[#f8fafc] rounded-2xl p-10">
-          <h3 className="font-display text-4xl text-[#1e3a5f] text-center mb-10">Certifications &amp; Awards</h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {['BBB Accredited Member', 'Owens Corning Preferred', 'CertainTeed Master', 'BBB A+ Accredited', 'Fully Licensed & Insured', 'Austin BJ Top 50 — 2020', 'Austin BJ Top 50 — 2021'].map(cert => (
-              <span key={cert} className="flex items-center gap-2 bg-white border border-blue-100 text-[#1e3a5f] px-5 py-2.5 rounded-full text-sm font-semibold shadow-sm">
-                <CheckCircle className="w-4 h-4 text-[#1d4ed8]" /> {cert}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Timeline */}
-        <div className="mb-20">
-          <h3 className="font-display text-4xl text-[#1e3a5f] text-center mb-12">Company Timeline</h3>
-          <div className="relative max-w-3xl mx-auto">
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-blue-100 -translate-x-1/2" />
-            <div className="space-y-10">
-              {[
-                { year: '2001', title: 'The Early Days', desc: 'Our founders began their roofing careers, building 25+ years of combined expertise.' },
-                { year: '2012', title: '21st Century Launched in Austin', desc: '21st Century officially launched to serve Central Texas homeowners and businesses.' },
-                { year: '2016', title: 'Commercial Division', desc: 'Expanded into commercial TPO and EPDM flat roof solutions for businesses.' },
-                { year: '2018', title: '500th Five-Star Review', desc: 'A major community trust milestone on Google Reviews.' },
-                { year: '2020', title: 'Austin BJ Top 50', desc: 'Named to the Austin Business Journal Top 50 Fastest-Growing Companies.' },
-                { year: '2021', title: 'Top 50 Again', desc: 'Recognized a second consecutive year for rapid growth and excellence.' },
-                { year: '2025', title: '300+ Reviews', desc: 'Austin\'s most reviewed roofing company — and still growing.' },
-              ].map((evt, i) => (
-                <div key={i} className={`relative flex ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center pl-14 md:pl-0`}>
-                  <div className="absolute left-4 md:left-1/2 w-4 h-4 rounded-full bg-[#1d4ed8] border-4 border-white shadow -translate-x-1/2" />
-                  <div className={`md:w-[45%] bg-white border border-gray-100 rounded-xl p-5 shadow-sm ${i % 2 === 0 ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'}`}>
-                    <span className="text-[#1d4ed8] font-bold text-xl font-display">{evt.year}</span>
-                    <h4 className="font-bold text-[#1e3a5f] mt-1 mb-1">{evt.title}</h4>
-                    <p className="text-[#64748b] text-sm">{evt.desc}</p>
+      <Section className="bg-cream-2/40 !py-20 -mx-6 lg:-mx-12 px-6 lg:px-12">
+        <div className="shell">
+          <SectionHead eyebrow="What we believe" title="Standards we keep, written down." />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+            {values.map(v => (
+              <FadeIn key={v.title}>
+                <div className="bento p-7 lg:p-8 h-full">
+                  <div className="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center mb-4">
+                    <Check className="w-4 h-4" strokeWidth={3} />
                   </div>
+                  <h3 className="text-2xl font-display font-bold mb-3">{v.title}</h3>
+                  <p className="text-stone-soft leading-relaxed">{v.body}</p>
                 </div>
-              ))}
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      <Section>
+        <FadeIn>
+          <div className="bento bento-dark p-10 lg:p-16 text-center relative overflow-hidden">
+            <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-brand/30 blur-3xl pointer-events-none" />
+            <div className="relative max-w-2xl mx-auto">
+              <h2 className="text-white text-4xl lg:text-5xl mb-6">Let's get a number on your project.</h2>
+              <p className="text-white/70 text-lg mb-8">Free estimate, real samples, line-item bid. No high-pressure pitch.</p>
+              <div className="flex flex-wrap gap-3 justify-center">
+                <Link to="/contact" className="btn-primary"><ArrowRight className="w-4 h-4" /> Free Estimate</Link>
+                <a href="tel:5122190342" className="btn-soft"><Phone className="w-4 h-4" /> (512) 219-0342</a>
+              </div>
             </div>
           </div>
-        </div>
-
-        <CtaBanner headline="Meet our team in person." sub="Visit us in Austin or we'll come to you — free roof assessment, no obligation." />
-      </div>
-    </div>
+        </FadeIn>
+      </Section>
+    </>
   );
 }

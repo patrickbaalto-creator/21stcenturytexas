@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://austinroofingandwaterdamage.com/sitemap.xml
+Sitemap: https://21stcenturytexas.vercel.app/sitemap.xml

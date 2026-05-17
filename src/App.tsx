@@ -1,40 +1,46 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Layout } from "./Layout";
-import Home from "./pages/Home";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsAndConditions from "./pages/TermsAndConditions";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Layout } from './Layout';
+import Home from './pages/Home';
 
+const PaintingHub  = lazy(() => import('./pages/PaintingHub'));
+const RoofingHub   = lazy(() => import('./pages/RoofingHub'));
+const SidingHub    = lazy(() => import('./pages/SidingHub'));
+const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+const AreasIndex   = lazy(() => import('./pages/AreasIndex'));
+const CityPage     = lazy(() => import('./pages/CityPage'));
+const ProjectsIndex = lazy(() => import('./pages/ProjectsIndex'));
 const About        = lazy(() => import('./pages/About'));
-const Services     = lazy(() => import('./pages/Services'));
-const Factory      = lazy(() => import('./pages/FactoryComponent'));
-const Residential  = lazy(() => import('./pages/Residential'));
-const Commercial   = lazy(() => import('./pages/Commercial'));
+const Reviews      = lazy(() => import('./pages/Reviews'));
 const Blog         = lazy(() => import('./pages/Blog'));
 const BlogPost     = lazy(() => import('./pages/BlogPost'));
 const Contact      = lazy(() => import('./pages/Contact'));
-const ServiceArea  = lazy(() => import('./pages/service-area/ServiceArea'));
+const Privacy      = lazy(() => import('./pages/Privacy'));
+const Terms        = lazy(() => import('./pages/Terms'));
 const NotFound     = lazy(() => import('./pages/NotFound'));
 
 export default function App() {
   return (
     <BrowserRouter>
       <Layout>
-        <Suspense fallback={null}>
+        <Suspense fallback={<div className="min-h-[50vh]" />}>
           <Routes>
-            <Route path="/"                    element={<Home />} />
-            <Route path="/about"               element={<About />} />
-            <Route path="/services"            element={<Services />} />
-            <Route path="/services/:slug"      element={<Factory />} />
-            <Route path="/residential"         element={<Residential />} />
-            <Route path="/commercial"          element={<Commercial />} />
-            <Route path="/blog"                element={<Blog />} />
-            <Route path="/blog/:slug"          element={<BlogPost />} />
-            <Route path="/contact"             element={<Contact />} />
-            <Route path="/service-areas/:slug" element={<ServiceArea />} />
-            <Route path="/privacy-policy"       element={<PrivacyPolicy />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-            <Route path="*"                    element={<NotFound />} />
+            <Route path="/"                element={<Home />} />
+            <Route path="/painting"        element={<PaintingHub />} />
+            <Route path="/roofing"         element={<RoofingHub />} />
+            <Route path="/siding"          element={<SidingHub />} />
+            <Route path="/services/:slug"  element={<ServiceDetail />} />
+            <Route path="/areas"           element={<AreasIndex />} />
+            <Route path="/areas/:slug"     element={<CityPage />} />
+            <Route path="/projects"        element={<ProjectsIndex />} />
+            <Route path="/about"           element={<About />} />
+            <Route path="/reviews"         element={<Reviews />} />
+            <Route path="/blog"            element={<Blog />} />
+            <Route path="/blog/:slug"      element={<BlogPost />} />
+            <Route path="/contact"         element={<Contact />} />
+            <Route path="/privacy-policy"  element={<Privacy />} />
+            <Route path="/terms"           element={<Terms />} />
+            <Route path="*"                element={<NotFound />} />
           </Routes>
         </Suspense>
       </Layout>

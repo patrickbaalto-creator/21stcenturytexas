@@ -1,164 +1,126 @@
-import { PageHero } from '../components/PageHero';
-import { Breadcrumb } from '../components/Breadcrumb';
-import * as LucideIcons from 'lucide-react';
 import { useState } from 'react';
-import { FadeUp } from '../components/FadeUp';
+import { Section } from '../components/Section';
+import { FadeIn } from '../components/FadeIn';
 import { useSEO } from '../utils/seo';
-
-function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({
-    fullName: '', phone: '', email: '', serviceType: 'Not Sure', bestTime: 'Anytime', message: ''
-  });
-
-  const inputClass = "w-full bg-white dark-input border border-gray-200 text-[#1e293b] rounded-lg px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-[#f97316]/40 transition-all text-[0.95rem]";
-  const labelClass = "block text-[0.75rem] uppercase tracking-[0.1em] text-[#64748b] mb-1.5 font-semibold";
-
-  if (submitted) {
-    return (
-      <div className="text-center space-y-4 py-12">
-        <LucideIcons.CheckCircle className="w-14 h-14 text-[#f97316] mx-auto" />
-        <h3 className="font-display text-2xl text-[#111827]">We'll be in touch within 2 hours.</h3>
-        <p className="text-[#64748b]">A member of our team will call you at {form.phone}.</p>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-5">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
-          <label className={labelClass}>Full Name</label>
-          <input required type="text" value={form.fullName} onChange={e => setForm({...form, fullName: e.target.value})} className={inputClass} placeholder="John Doe" />
-        </div>
-        <div>
-          <label className={labelClass}>Phone Number</label>
-          <input required type="tel" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className={inputClass} placeholder="(512) 555-0199" />
-        </div>
-      </div>
-      <div>
-        <label className={labelClass}>Email Address</label>
-        <input required type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className={inputClass} placeholder="john@example.com" />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
-          <label className={labelClass}>Service Type</label>
-          <select value={form.serviceType} onChange={e => setForm({...form, serviceType: e.target.value})} className={inputClass}>
-            {['Not Sure','Roof Inspection','Roof Estimate','Roof Installation','Roof Repair','Roof Replacement','Reroof','Hail Damage','Water Damage Restoration'].map(o => <option key={o}>{o}</option>)}
-          </select>
-        </div>
-        <div>
-          <label className={labelClass}>Best Time to Call</label>
-          <select value={form.bestTime} onChange={e => setForm({...form, bestTime: e.target.value})} className={inputClass}>
-            {['Anytime','Morning 7–10am','Midday 10am–2pm','Afternoon 2–6pm','Evening 6–8pm'].map(o => <option key={o}>{o}</option>)}
-          </select>
-        </div>
-      </div>
-      <div>
-        <label className={labelClass}>Message</label>
-        <textarea required rows={5} value={form.message} onChange={e => setForm({...form, message: e.target.value})} className={inputClass + " resize-none"} placeholder="Tell us about your project or damage..." />
-      </div>
-      <button type="submit" className="w-full btn-gold rounded-lg py-4 text-center">
-        Send Message &rarr;
-      </button>
-    </form>
-  );
-}
+import { Phone, Mail, MapPin, Clock, Check } from 'lucide-react';
 
 export default function Contact() {
   useSEO({
-    title: 'Contact 21st Century Roofing Austin | Free Roof Inspection',
-    description: 'Contact 21st Century Roofing in Austin TX. Schedule a free roof inspection or get a same-day estimate. Call (512) 219-0342 or fill out our online form. Available 24/7 for emergencies.',
+    title: 'Contact 21st Century — Free Painting, Roofing & Siding Estimate',
+    description: 'Request a free estimate from Austin\'s top-rated exterior contractor. Phone (512) 219-0342 or fill the form. We respond within 48 hours.',
     canonical: '/contact',
   });
 
+  const [sent, setSent] = useState(false);
+
   return (
-    <div className="bg-white">
-      <PageHero
-        height="40vh"
-        eyebrow="Reach Out"
-        title={<>Let's Talk <em>Roofing</em>.</>}
-        image="https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1920&q=80"
-      />
+    <>
+      <Section className="!pt-14 lg:!pt-20 !pb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <FadeIn className="lg:col-span-5">
+            <div className="eyebrow mb-4">Get an estimate</div>
+            <h1 className="text-5xl lg:text-6xl leading-[0.98] tracking-tight mb-6">
+              Tell us about <span className="italic text-brand">your project.</span>
+            </h1>
+            <p className="text-stone-soft text-lg leading-relaxed mb-8 max-w-md">
+              Send a few details and we'll book your free on-site estimate within 48 hours. For storm emergencies, just call.
+            </p>
 
-      {/* Emergency Strip */}
-      <div className="bg-[#111827] px-4 py-3.5 text-center">
-        <p className="text-white font-semibold text-[0.85rem] uppercase tracking-widest flex items-center justify-center flex-wrap gap-2">
-          <LucideIcons.AlertTriangle className="w-4 h-4 text-[#f97316]" />
-          Roof emergency? Available 24/7. &rarr;
-          <a href="tel:5122190342" className="text-[#f97316] hover:text-white underline underline-offset-2">(512) 219-0342</a>
-        </p>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
-        <Breadcrumb items={[{ label: 'Contact Us' }]} />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mt-10 mb-20">
-
-          {/* Left — info */}
-          <FadeUp className="lg:col-span-5 space-y-8">
-            <div>
-              <div className="text-[#f97316] text-xs font-bold uppercase tracking-widest mb-3">Get In Touch</div>
-              <h2 className="font-display text-4xl text-[#111827] mb-4">Contact <em>21st Century</em></h2>
-              <p className="text-[#475569] text-lg font-light leading-relaxed">
-                Send us a message or reach out directly. Our team operates exactly like our crews: fast, friendly, and honest.
-              </p>
-            </div>
-
-            <div className="space-y-4">
+            <div className="space-y-5">
               {[
-                { icon: 'Phone', label: 'Direct Line', content: <a href="tel:5122190342" className="text-[#111827] font-semibold text-lg hover:text-[#f97316]">(512) 219-0342</a> },
-                { icon: 'Mail', label: 'Email', content: <a href="mailto:info@austinwdr.com" className="text-[#111827] font-medium hover:text-[#f97316] text-sm">info@austinwdr.com</a> },
-                { icon: 'MapPin', label: 'Headquarters', content: <p className="text-[#475569] text-sm">9811 A Beck Cir, Austin, TX 78758</p> },
-                { icon: 'Clock', label: 'Hours', content: <p className="text-[#475569] text-sm">Mon–Fri 7am–6pm &nbsp;·&nbsp; <span className="text-[#f97316] font-semibold">Emergency 24/7</span></p> },
-              ].map(({ icon, label, content }) => {
-                const Icon = (LucideIcons as any)[icon];
-                return (
-                  <div key={label} className="flex gap-4 items-start p-4 rounded-xl bg-[#f8fafc] border border-gray-100">
-                    <div className="w-10 h-10 rounded-lg bg-[#f97316] flex items-center justify-center shrink-0">
-                      <Icon className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-xs text-[#94a3b8] uppercase tracking-wider mb-0.5">{label}</div>
-                      {content}
-                    </div>
+                { icon: Phone, label: 'Phone',  value: '(512) 219-0342',         href: 'tel:5122190342' },
+                { icon: Mail,  label: 'Email',  value: 'sales@21stcenturytexas.com', href: 'mailto:sales@21stcenturytexas.com' },
+                { icon: MapPin,label: 'Office', value: '9811 A Beck Cir\nAustin, TX 78758' },
+                { icon: Clock, label: 'Hours',  value: 'Mon–Fri 8am–5pm\nEmergency calls 24/7' },
+              ].map(({ icon: Icon, label, value, href }) => (
+                <div key={label} className="flex gap-4 items-start">
+                  <div className="w-10 h-10 rounded-full bg-cream-2 flex items-center justify-center text-brand shrink-0">
+                    <Icon className="w-4 h-4" />
                   </div>
-                );
-              })}
+                  <div>
+                    <div className="text-stone-mute text-xs uppercase tracking-wider font-bold mb-1">{label}</div>
+                    {href
+                      ? <a href={href} className="text-stone-ink font-semibold hover:text-brand whitespace-pre-line">{value}</a>
+                      : <div className="text-stone-ink font-semibold whitespace-pre-line">{value}</div>}
+                  </div>
+                </div>
+              ))}
             </div>
+          </FadeIn>
 
-            <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm" style={{ height: 220 }}>
-              <iframe
-                title="21st Century Austin Location"
-                width="100%" height="220"
-                style={{ border: 0 }}
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3446.5!2d-97.7127123!3d30.3761739!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b5a4f8b0c1a3%3A0x9c1f2d3e4a5b6c7d!2sAustin+Roofing+Company+%26+Water+Damage+%7C+21st Century!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
-              />
-            </div>
-
-            <a
-              href="https://www.google.com/maps/place/Austin+Roofing+Company+%26+Water+Damage+%7C+21st Century/@30.3761555,-97.7127597,21z"
-              target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#f97316] text-sm font-semibold hover:underline"
-            >
-              <LucideIcons.MapPin className="w-4 h-4" /> Get Directions on Google Maps &rarr;
-            </a>
-          </FadeUp>
-
-          {/* Right — form */}
-          <FadeUp delay={0.1} className="lg:col-span-7">
-            <div className="bg-white border border-gray-200 rounded-3xl p-8 md:p-12 shadow-sm">
-              <div className="text-[#f97316] text-xs font-bold uppercase tracking-widest mb-3">Free Estimate</div>
-              <h3 className="font-display text-3xl text-[#111827] mb-8">Request a Free Inspection</h3>
-              <ContactForm />
-            </div>
-          </FadeUp>
-
+          <FadeIn className="lg:col-span-7" delay={0.1}>
+            {sent ? (
+              <div className="bento p-10 text-center">
+                <div className="w-16 h-16 rounded-full bg-brand text-white flex items-center justify-center mx-auto mb-5">
+                  <Check className="w-7 h-7" strokeWidth={3} />
+                </div>
+                <h2 className="text-3xl font-display font-bold mb-3">Thanks — we'll be in touch.</h2>
+                <p className="text-stone-mute mb-6">Most estimates are scheduled within 48 hours. For storm emergencies, call (512) 219-0342.</p>
+                <button onClick={() => setSent(false)} className="btn-soft">Send another</button>
+              </div>
+            ) : (
+              <form className="bento p-7 lg:p-10 space-y-5"
+                onSubmit={e => { e.preventDefault(); setSent(true); }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Field label="First name" name="firstName" required />
+                  <Field label="Last name"  name="lastName"  required />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Field label="Phone" name="phone" type="tel" required />
+                  <Field label="Email" name="email" type="email" required />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Field label="City" name="city" required />
+                  <Select label="Service interest" name="service" required options={[
+                    'Exterior Painting','Interior Painting','Commercial Painting',
+                    'Residential Roofing','Metal Roofing','Roof Repair',
+                    'Siding Installation','Insurance Claim','Not sure yet',
+                  ]} />
+                </div>
+                <Field label="Tell us about your project" name="message" textarea />
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
+                  <p className="text-xs text-stone-mute">We never share your info. No spam. Real human reply.</p>
+                  <button type="submit" className="btn-primary">Request Estimate</button>
+                </div>
+              </form>
+            )}
+          </FadeIn>
         </div>
-      </div>
-    </div>
+      </Section>
+
+      <Section className="!pt-4 !pb-24">
+        <FadeIn>
+          <div className="bento overflow-hidden h-80 lg:h-[420px]">
+            <iframe
+              title="21st Century Office Location"
+              src="https://www.google.com/maps?q=9811+Beck+Cir,+Austin,+TX+78758&output=embed"
+              width="100%" height="100%" style={{ border: 0 }} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+          </div>
+        </FadeIn>
+      </Section>
+    </>
+  );
+}
+
+function Field({ label, name, type = 'text', required = false, textarea = false }: { label: string; name: string; type?: string; required?: boolean; textarea?: boolean }) {
+  return (
+    <label className="block">
+      <span className="text-xs font-bold uppercase tracking-wider text-stone-mute mb-1.5 block">{label}{required && <span className="text-brand"> *</span>}</span>
+      {textarea
+        ? <textarea name={name} rows={4} required={required} className="w-full bg-cream border border-stone-line rounded-2xl px-4 py-3 text-stone-ink focus:border-brand focus:outline-none transition-colors" />
+        : <input name={name} type={type} required={required} className="w-full bg-cream border border-stone-line rounded-2xl px-4 py-3 text-stone-ink focus:border-brand focus:outline-none transition-colors" />}
+    </label>
+  );
+}
+
+function Select({ label, name, options, required = false }: { label: string; name: string; options: string[]; required?: boolean }) {
+  return (
+    <label className="block">
+      <span className="text-xs font-bold uppercase tracking-wider text-stone-mute mb-1.5 block">{label}{required && <span className="text-brand"> *</span>}</span>
+      <select name={name} required={required} defaultValue="" className="w-full bg-cream border border-stone-line rounded-2xl px-4 py-3 text-stone-ink focus:border-brand focus:outline-none transition-colors">
+        <option value="" disabled>Select…</option>
+        {options.map(o => <option key={o} value={o}>{o}</option>)}
+      </select>
+    </label>
   );
 }

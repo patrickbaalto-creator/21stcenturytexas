@@ -1,88 +1,94 @@
-import { useParams, Navigate, Link } from 'react-router-dom';
-import { PageHero } from '../components/PageHero';
-import { Breadcrumb } from '../components/Breadcrumb';
-import { CtaBanner } from '../components/CtaBanner';
+import { Link, useParams } from 'react-router-dom';
+import { Section } from '../components/Section';
+import { FadeIn } from '../components/FadeIn';
 import { posts } from '../data/posts';
-import * as LucideIcons from 'lucide-react';
-import { useEffect } from 'react';
+import { img } from '../utils/unsplash';
+import { useSEO } from '../utils/seo';
+import NotFound from './NotFound';
+import { ArrowLeft, ArrowRight, Phone } from 'lucide-react';
 
 export default function BlogPost() {
-  const { slug } = useParams();
+  const { slug = '' } = useParams();
   const post = posts.find(p => p.slug === slug);
 
-  useEffect(() => {
-    if (post) document.title = `${post.title} | 21st Century Blog`;
-    window.scrollTo(0, 0);
-  }, [post]);
+  useSEO(post ? {
+    title: `${post.title} | 21st Century`,
+    description: post.excerpt,
+    canonical: `/blog/${post.slug}`,
+  } : { title: 'Post Not Found | 21st Century', description: '' });
 
-  if (!post) return <Navigate to="/404" />;
+  if (!post) return <NotFound />;
 
-  const related = posts.filter(p => p.category === post.category && p.slug !== post.slug).slice(0, 3);
+  const related = posts.filter(p => p.slug !== post.slug && p.category === post.category).slice(0, 2);
 
   return (
-    <div className="bg-white">
-      <PageHero height="50vh" eyebrow={post.category} title={post.title} image={post.coverImage} />
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
-        <Breadcrumb items={[{ label: 'Blog', href: '/blog' }, { label: post.title }]} />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mt-12">
-          <div className="lg:col-span-8">
-            <div className="flex items-center gap-4 mb-10 pb-8 border-b border-gray-100">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" className="w-12 h-12 rounded-full object-cover" alt="Author" />
-              <div>
-                <p className="text-[#1e3a5f] font-bold text-sm">21st Century Team <span className="text-[#94a3b8] font-normal ml-2">Austin Specialists</span></p>
-                <p className="text-[#94a3b8] text-sm mt-0.5">{post.date} · {post.readTime}</p>
-              </div>
-            </div>
-
-            <div
-              className="prose prose-slate prose-p:text-[#475569] prose-p:leading-relaxed prose-h2:text-2xl prose-h2:font-bold prose-h2:text-[#1e3a5f] prose-h2:mt-10 prose-h2:mb-4 max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
-
-            <div className="bg-[#f8fafc] border border-gray-100 p-8 rounded-2xl mt-16 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" className="w-20 h-20 rounded-full object-cover hidden md:block" alt="Author" />
-              <div>
-                <p className="text-[#1d4ed8] uppercase tracking-widest text-xs font-bold mb-2">Written By</p>
-                <h4 className="font-display text-2xl text-[#1e3a5f] mb-2">The 21st Century Education Team</h4>
-                <p className="text-[#64748b] text-sm">Bringing over 25 years of combined experience to help Austin homeowners make educated decisions regarding their roofs, storm damage, and preventative maintenance.</p>
-              </div>
+    <>
+      <Section className="!pt-12 lg:!pt-16 !pb-8">
+        <Link to="/blog" className="inline-flex items-center gap-1.5 text-sm text-stone-mute hover:text-brand mb-6">
+          <ArrowLeft className="w-3.5 h-3.5" /> All articles
+        </Link>
+        <FadeIn>
+          <div className="max-w-3xl">
+            <span className="eyebrow mb-3 inline-flex">{post.category}</span>
+            <h1 className="text-4xl lg:text-6xl leading-[1.02] tracking-tight mb-5">{post.title}</h1>
+            <div className="flex items-center gap-3 text-stone-mute text-sm">
+              <span>{post.date}</span><span>·</span><span>{post.readTime}</span>
             </div>
           </div>
+        </FadeIn>
+      </Section>
 
-          <div className="lg:col-span-4 relative">
-            <div className="sticky top-24 space-y-8">
-              <div className="bg-[#1e3a5f] p-8 rounded-2xl text-center shadow-xl">
-                <LucideIcons.Search className="w-10 h-10 text-yellow-300 mx-auto mb-4" />
-                <h3 className="font-display text-2xl text-white mb-3">Free Inspection</h3>
-                <p className="text-white/70 text-sm mb-6">Found an issue on your roof? Have 21st Century inspect it for free.</p>
-                <Link to="/contact" className="btn-gold rounded-lg w-full block text-center py-3 font-bold text-sm uppercase tracking-wide">Get a Quote</Link>
-                <a href="tel:5122190342" className="block text-blue-300 mt-4 text-sm hover:text-white transition-colors">(512) 219-0342</a>
-              </div>
+      <Section className="!pt-4 !pb-12">
+        <FadeIn>
+          <div className="bento overflow-hidden aspect-video">
+            <img src={img(post.cover, 1600)} alt={post.title} className="w-full h-full object-cover" />
+          </div>
+        </FadeIn>
+      </Section>
 
-              {related.length > 0 && (
-                <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-2xl">
-                  <h4 className="text-xs uppercase tracking-widest font-bold text-[#1e3a5f] mb-5">Related Reads</h4>
-                  <div className="space-y-5">
-                    {related.map(r => (
-                      <Link to={`/blog/${r.slug}`} key={r.slug} className="flex gap-4 group">
-                        <img src={r.coverImage} className="w-20 h-20 rounded-xl object-cover shrink-0" alt={r.title} />
-                        <div className="flex flex-col justify-center">
-                          <h5 className="text-sm font-bold text-[#1e3a5f] leading-snug group-hover:text-[#1d4ed8] transition-colors">{r.title}</h5>
-                          <span className="text-xs text-[#94a3b8] mt-1">{r.readTime}</span>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+      <Section className="!pt-0 !pb-20">
+        <article className="max-w-3xl mx-auto">
+          <FadeIn>
+            <p className="text-stone-soft text-xl leading-[1.7] mb-8 font-display italic">{post.excerpt}</p>
+            <div className="prose-content text-stone-ink text-[17px] leading-[1.75]" dangerouslySetInnerHTML={{ __html: post.body }} />
+          </FadeIn>
+        </article>
+      </Section>
+
+      <Section className="bg-stone-ink text-white -mx-6 lg:-mx-12 px-6 lg:px-12 !py-20">
+        <div className="shell max-w-3xl mx-auto text-center">
+          <h2 className="text-white text-3xl lg:text-4xl mb-5">Ready for your project?</h2>
+          <p className="text-white/70 mb-8">Free estimate with real samples on-site. Most quotes scheduled within 48 hours.</p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link to="/contact" className="btn-primary"><ArrowRight className="w-4 h-4" /> Free Estimate</Link>
+            <a href="tel:5122190342" className="btn-soft"><Phone className="w-4 h-4" /> (512) 219-0342</a>
           </div>
         </div>
+      </Section>
 
-        <CtaBanner headline="Dealing with an issue discussed here?" sub="Let 21st Century handle it — free inspection, no pressure." />
-      </div>
-    </div>
+      {related.length > 0 && (
+        <Section>
+          <h3 className="eyebrow mb-6">Related</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+            {related.map(r => (
+              <Link key={r.slug} to={`/blog/${r.slug}`} className="bento overflow-hidden block group flex flex-col h-full">
+                <div className="aspect-video overflow-hidden bg-cream-2">
+                  <img src={img(r.cover, 900)} alt={r.title} className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700" />
+                </div>
+                <div className="p-6">
+                  <h4 className="text-xl font-display font-bold mb-2 group-hover:text-brand transition-colors">{r.title}</h4>
+                  <p className="text-stone-mute text-sm">{r.excerpt}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      <style>{`
+        .prose-content h2 { font-family: var(--font-display); font-size: 1.85rem; font-weight: 700; margin: 2rem 0 1rem; line-height: 1.2; }
+        .prose-content p { margin-bottom: 1.4rem; }
+      `}</style>
+    </>
   );
 }
